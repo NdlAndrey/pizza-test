@@ -37,6 +37,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('dashboard') }}">{{ __('dashboard') }}</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('ingredients.index') }}">{{ __('List Ingredients') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('pizza.index') }}">{{ __('List Pizza') }}</a>
+                            </li>
                         @endauth
                     </ul>
 

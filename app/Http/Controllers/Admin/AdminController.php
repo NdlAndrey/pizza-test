@@ -12,8 +12,13 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function dashboard()
     {
-        return view('home');
+        return view('admin.dashboard');
     }
 }
