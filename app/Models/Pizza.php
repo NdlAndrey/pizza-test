@@ -16,6 +16,8 @@ class Pizza extends Model
     public function ingredients()
     {
         return $this->belongsToMany(Ingredient::class, 'pizza_ingredients', 'pizza_id', 'ingredient_id')
+            ->orderBy('pivot_sort')
+            ->orderBy('pizza_ingredients.id')
             ->withPivot('sort');
     }
 
@@ -27,6 +29,6 @@ class Pizza extends Model
     public function price()
     {
         $cost = $this->ingredients->sum('cost_price');
-        return $cost + (config('app.percentage') / 100) * $cost;
+        return round($cost + (config('app.percentage') / 100) * $cost, 2);
     }
 }
