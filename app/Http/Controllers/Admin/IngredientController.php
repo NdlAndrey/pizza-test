@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IngredientValidate;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
 
@@ -15,30 +16,38 @@ class IngredientController extends Controller
      */
     public function index()
     {
-        $ingredients = Ingredient::paginate(24);
+        $ingredients = Ingredient::orderBy('id', 'DESC')
+            ->paginate(24);
 
         return view('admin.ingredient.index', compact('ingredients'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new ingredient.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        //
+
+        $route = route('ingredients.store');
+        $method = method_field('post');
+        $item = null;
+
+        return view('admin.ingredient.form', compact('route', 'method', 'item'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created ingredient in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param IngredientValidate $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(IngredientValidate $request)
     {
-        //
+        Ingredient::create($request->all());
+
+        return redirect()->route('ingredients.index')->with('message', 'Created ingredient successful');
     }
 
     /**
