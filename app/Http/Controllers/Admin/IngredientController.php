@@ -47,7 +47,9 @@ class IngredientController extends Controller
     {
         Ingredient::create($request->all());
 
-        return redirect()->route('ingredients.index')->with('message', 'Created ingredient successful');
+        return redirect()->route('ingredients.index')
+            ->with('message', 'Created ingredient successful')
+            ->setStatusCode(201);
     }
 
     /**
@@ -64,34 +66,48 @@ class IngredientController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Ingredient $ingredient
+     * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Ingredient $ingredient)
     {
-        //
+        $route = route('ingredients.update', $ingredient->id);
+        $method = method_field('put');
+        $item = $ingredient;
+
+        return view('admin.ingredient.form', compact('route', 'method', 'item'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param IngredientValidate $request
+     * @param Ingredient $ingredient
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(IngredientValidate $request, Ingredient $ingredient)
     {
-        //
+        $ingredient->name = $request->get('name');
+        $ingredient->cost_price = $request->get('cost_price');
+
+        $ingredient->save();
+
+        return redirect()->route('ingredients.index')
+            ->with('message', 'Update ingredient successful');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Ingredient $ingredient
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Ingredient $ingredient)
     {
-        //
+        $ingredient->delete();
+
+        return redirect()->route('ingredients.index')
+            ->with('message', 'Delete ingredient successful');
     }
 }

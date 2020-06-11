@@ -26,7 +26,7 @@
                         <td>{{ $ingredient->name }}</td>
                         <td>{{ $ingredient->cost_price }}</td>
                         <td>
-                            <a href="{{ route('ingredients.update', $ingredient->id) }}" class="btn btn-primary btn-sm " >Edit</a>
+                            <a href="{{ route('ingredients.edit', $ingredient->id) }}" class="btn btn-primary btn-sm " >Edit</a>
                             <form action="{{ route('ingredients.destroy', $ingredient->id) }}" method="post" class="form-inline float-right">
                                 @csrf
                                 @method('delete')
