@@ -1,5 +1,5 @@
 # Pizza (test)
-[![Software License](https://img.shields.io/github/license/NdlAndrey/pizza-test.git?style=flat-square)](https://bitbucket.org/Fynduck/hamillion/blob/master/LICENSE.md)
+[![Software License](https://img.shields.io/github/license/NdlAndrey/pizza-test.git?style=flat-square)](https://github.com/NdlAndrey/pizza-test/blob/master/LICENSE)
 
 ## About
 
