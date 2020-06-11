@@ -25,4 +25,5 @@ Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function (
 
     // resource pages pizza
     Route::resource('pizza', 'PizzaController');
+    Route::resource('ingredients', 'IngredientController');
 });
