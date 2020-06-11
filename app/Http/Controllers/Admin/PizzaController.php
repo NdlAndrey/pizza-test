@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PizzaValidate;
 use App\Http\Resources\PizzaListResource;
+use App\Models\Ingredient;
 use App\Models\Pizza;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -28,68 +30,50 @@ class PizzaController extends Controller
      */
     public function getPizza(Request $request)
     {
-        $collections = Pizza::paginate(24);
+        $collections = Pizza::with('ingredients')
+            ->paginate(24);
 
-        return PizzaListResource::collection($collections);
+        $additional['ingredients'] = Ingredient::pluck('name', 'id');
+
+        return PizzaListResource::collection($collections)->additional($additional);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created pizza in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @param PizzaValidate $request
+     * @return PizzaListResource
      */
-    public function create()
+    public function store(PizzaValidate $request)
     {
-        //
+        $pizza = Pizza::create($request->only('name'));
+
+        $collect = collect($request->get('ingredients'));
+        $pizza->ingredients()->sync($collect->keyBy('ingredient_id'));
+
+        return new PizzaListResource($pizza);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update the specified pizza in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param PizzaValidate $request
+     * @param Pizza $pizza
+     * @return PizzaListResource
      */
-    public function store(Request $request)
+    public function update(PizzaValidate $request, Pizza $pizza)
     {
-        //
+        $pizza->name = $request->get('name');
+        $pizza->save();
+
+        $collect = collect($request->get('ingredients'));
+        $pizza->ingredients()->sync($collect->keyBy('ingredient_id'));
+
+        return new PizzaListResource($pizza);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Remove the specified pizza from storage.
      *
      * @param int $id
      * @return \Illuminate\Http\JsonResponse

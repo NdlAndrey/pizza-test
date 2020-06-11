@@ -17,10 +17,9 @@ class PizzaListResource extends JsonResource
         return [
             'id'           => $this->id,
             'name'         => $this->name,
-            'ingredients'  => [],
-            'price'        => 0,
+            'ingredients'  => IngredientResource::collection($this->ingredients),
+            'price'        => $this->price(),
             'date'         => $this->created_at->format('Y/m/d H:i:s'),
-            'route_edit'   => route('pizza.edit', $this->id),
             'route_delete' => route('pizza.destroy', $this->id)
         ];
     }
