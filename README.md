@@ -12,7 +12,7 @@ require of server
 - ```php (v>=7.2.5)```
 - ```composer (latest)```
 - ```nodeJs (v>=12)```
-- ```Mysql```
+- ```Mysql (5.7)```
 
 #### clone repository
 
