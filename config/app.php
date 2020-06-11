@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'percentage' => env('PIZZA_PERCENTAGE', 50),
+
     'asset_url' => env('ASSET_URL', null),
 
     /*

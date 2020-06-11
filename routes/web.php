@@ -24,6 +24,8 @@ Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function (
     Route::get('get-pizza', 'PizzaController@getPizza')->name('pizza.get-ajax');
 
     // resource pages pizza
-    Route::resource('pizza', 'PizzaController');
+    Route::resource('pizza', 'PizzaController')->except(['create', 'show', 'edit']);
+
+    // resource pages ingredients
     Route::resource('ingredients', 'IngredientController');
 });

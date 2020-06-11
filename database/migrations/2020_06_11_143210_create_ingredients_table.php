@@ -22,7 +22,8 @@ class CreateIngredientsTable extends Migration
 
         Schema::create('pizza_ingredients', function(Blueprint $table)
         {
-            $table->unsignedBigInteger('pizza_id')->primary();
+            $table->id();
+            $table->unsignedBigInteger('pizza_id');
             $table->unsignedBigInteger('ingredient_id');
             $table->integer('sort')->default(0);
 
