@@ -13,14 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::get('/', 'HomeController@index')->name('home');
+
+Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function () {
+    Route::get('/', 'AdminController@dashboard')->name('dashboard');
+
+    // ajax get list pizza
+    Route::get('get-pizza', 'PizzaController@getPizza')->name('pizza.get-ajax');
+
+    // resource pages pizza
+    Route::resource('pizza', 'PizzaController')->except(['create', 'show', 'edit']);
+
+    // resource pages ingredients
+    Route::resource('ingredients', 'IngredientController');
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
